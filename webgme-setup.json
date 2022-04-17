@@ -4,9 +4,16 @@
       "Surface": {
         "src": "src/seeds/Surface"
       }
+    },
+    "plugins": {
+      "CodeGen": {
+        "src": "src/plugins/CodeGen",
+        "test": "test/plugins/CodeGen"
+      }
     }
   },
   "dependencies": {
-    "seeds": {}
+    "seeds": {},
+    "plugins": {}
   }
 }
