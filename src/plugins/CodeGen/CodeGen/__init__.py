@@ -18,15 +18,42 @@ logger.addHandler(handler)
 
 class CodeGen(PluginBase):
     def main(self):
-        core = self.core
-        root_node = self.root_node
         active_node = self.active_node
-
-        name = core.get_attribute(active_node, 'name')
-
-        logger.info('ActiveNode at "{0}" has name {1}'.format(core.get_path(active_node), name))
-
-        core.set_attribute(active_node, 'name', 'newName')
-
-        commit_info = self.util.save(root_node, self.commit_hash, 'master', 'Python plugin updated the model')
-        logger.info('committed :{0}'.format(commit_info))
+        core = self.core
+        logger = self.logger
+        META = self.META
+        nodes = core.load_sub_tree(active_node)
+        
+        # get main compartments of surface
+        for n in nodes:  
+            if core.is_instance_of(n, META['Polymer']):
+                polymer = n
+            if core.is_instance_of(n, META['Initiator']):
+                initiator = n
+            if core.is_instance_of(n, META['Surface']):
+                surface = n
+            if core.is_instance_of(n, META['Monomer']):
+                monomer = n
+            if core.is_instance_of(n, META['EndGroup']):
+                endgroup = n
+        
+        # process monomer
+        monomer_bonds = {}
+        for n in core.load_sub_tree(monomer):   
+            if core.is_instance_of(n, META['Bond']):  #get monomer atom bonds
+                monomer_bonds[core.get_pointer_path(n, 'src')] = core.get_pointer_path(n, 'dst')
+            #get dummy connections
+            if core.is_instance_of(n, META['A2D']):
+                if core.is_instance_of(n, META['DummyInitiator']):
+                    init_atom = core.get_pointer_path(n, 'src')
+                if core.is_instance_of(n, META['DummyEndgroup']):
+                    end_atom = core.get_pointer_path(n, 'src')
+                if core.is_instance_of(n, META['DummyMonomer']):
+                    mono_atom = core.get_pointer_path(n, 'src')
+            if core.is_instance_of(n, META['D2A']):
+                if core.is_instance_of(n, META['DummyInitiator']):
+                    init_atom = core.get_pointer_path(n, 'dst')
+                if core.is_instance_of(n, META['DummyEndgroup']):
+                    end_atom = core.get_pointer_path(n, 'dst')
+                if core.is_instance_of(n, META['DummyMonomer']):
+                    mono_atom = core.get_pointer_path(n, 'dst')
