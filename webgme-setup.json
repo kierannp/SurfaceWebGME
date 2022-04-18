@@ -10,10 +10,20 @@
         "src": "src/plugins/CodeGen",
         "test": "test/plugins/CodeGen"
       }
+    },
+    "visualizers": {
+      "Visualizer": {
+        "src": "panels/Visualizer/VisualizerPanel",
+        "title": "Visualizer",
+        "panel": "src/visualizers/panels/Visualizer",
+        "secondary": false,
+        "widget": "src/visualizers/widgets/Visualizer"
+      }
     }
   },
   "dependencies": {
     "seeds": {},
-    "plugins": {}
+    "plugins": {},
+    "visualizers": {}
   }
 }

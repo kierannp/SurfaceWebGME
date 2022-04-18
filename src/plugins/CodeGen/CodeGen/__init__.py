@@ -57,3 +57,4 @@ class CodeGen(PluginBase):
                     end_atom = core.get_pointer_path(n, 'dst')
                 if core.is_instance_of(n, META['DummyMonomer']):
                     mono_atom = core.get_pointer_path(n, 'dst')
+        self.add_file('polymer.py', 'helloworld')

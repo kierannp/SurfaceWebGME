@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "id": "Visualizer",
+    "title": "Visualizer",
+    "panel": "panels/Visualizer/VisualizerPanel",
+    "DEBUG_ONLY": false
+  }
+]
